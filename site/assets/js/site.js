@@ -159,7 +159,7 @@
   var fanWheel = doc.getElementById("fanhero-wheel");
   if (fanWheel) {
     var fanStage = doc.getElementById("fanhero-stage");
-    var SLOTS = 22, CARD_ASPECT = 0.7, RADIUS_VW = 0.62, RADIUS_MINK = 3.6, TOP_OFFSET = 0.30;
+    var SLOTS = 22, CARD_ASPECT = 0.7, RADIUS_VW = 0.6, RADIUS_MINK = 3.4, TOP_OFFSET = 0.42;
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var AUTO_SPIN = reduce ? 0 : 0.05, DRAG = 0.16, INERTIA = 0.94;
     var IMAGES = [];
@@ -180,7 +180,7 @@
       }
       function fanLayout() {
         var vw = fanStage.clientWidth, vh = fanStage.clientHeight;
-        var ch = Math.max(150, Math.min(vh * 0.33, vw * 0.42, 340));
+        var ch = Math.max(160, Math.min(vh * 0.52, vw * 0.4, 330));
         var cw = ch * CARD_ASPECT;
         var r = Math.max(vw * RADIUS_VW, cw * RADIUS_MINK);
         fanWheel.style.setProperty("--cw", cw + "px");

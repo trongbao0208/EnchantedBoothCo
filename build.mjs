@@ -330,15 +330,17 @@ function buildHome() {
   <div class="fanhero__stage" id="fanhero-stage">
     <div class="fanwheel" id="fanhero-wheel" data-images='${JSON.stringify(["groomsmen", "bride-squad", "nye-group", "gala-trio", "holiday-couple", "friends-laugh", "wedding-kiss", "group-women"].map((k) => `/assets/img/${k}-lg.webp`))}'></div>
     <div class="fanhero__scrim" aria-hidden="true"></div>
-    <div class="fanhero__content">
-      <p class="eyebrow eyebrow--gold">Luxury photo booth · ${esc(site.metro)}</p>
-      <div class="fantype fantype--bottom" aria-hidden="true"><span>The most</span><span><em>enchanted</em> booth</span></div>
-      <p class="fanhero__lede">Studio-quality photos, instant prints and a friendly attendant for weddings, parties and corporate events. Grab the fan and give it a spin.</p>
-      <div class="cta-row">${quoteBtn("Get a quote")}${ghostBtn("View packages", "/packages/")}</div>
-    </div>
     <div class="fanhero__tl" aria-hidden="true">
       <div class="fanbrand"><span class="fanbrand__mark"></span>${esc(site.metro)}</div>
       <div class="fancounter"><b id="fan-idx">01</b><i></i><span id="fan-total">08</span></div>
+    </div>
+  </div>
+  <div class="fanhero__content">
+    <div class="wrap">
+      <p class="eyebrow eyebrow--gold">Luxury photo booth · ${esc(site.metro)}</p>
+      <div class="fantype fantype--bottom" aria-hidden="true"><span>The most <em>enchanted</em></span><span>photo booth</span></div>
+      <p class="fanhero__lede">Studio-quality photos, instant prints and a friendly attendant for weddings, parties and corporate events across the ${esc(site.metro)}. Grab the fan above and give it a spin.</p>
+      <div class="cta-row">${quoteBtn("Get a quote")}${ghostBtn("View packages", "/packages/")}</div>
     </div>
   </div>
 </section>

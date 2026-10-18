@@ -90,30 +90,30 @@ p{margin:0 0 1rem}
 .hero__img,.hero__media img{position:relative;z-index:1;width:100%;border-radius:var(--r-lg);box-shadow:var(--shadow);aspect-ratio:4/3;object-fit:cover}
 
 /* fan / wheel hero */
-.fanhero{position:relative;height:100svh;min-height:600px;max-height:1000px;overflow:hidden;background:linear-gradient(180deg,var(--ivory),var(--ivory-2))}
-.fanhero__stage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none}
+.fanhero{position:relative;background:linear-gradient(180deg,var(--ivory),var(--ivory-2))}
+.fanhero__stage{position:relative;height:clamp(340px,54vh,580px);overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none}
 .fanhero__stage.-drag{cursor:grabbing}
 .fantype{position:absolute;margin:0;color:var(--green);pointer-events:none;font-family:var(--display);font-weight:500;line-height:.86;letter-spacing:-.02em;font-size:clamp(42px,min(12vw,15vh),120px)}
 .fantype span{display:block}
-.fanhero__scrim{position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(180deg,transparent 0%,rgba(244,236,223,.6) 42%,var(--ivory-2) 72%);z-index:2;pointer-events:none}
-.fanhero__content{position:absolute;left:clamp(16px,5vw,90px);bottom:clamp(24px,5vh,62px);z-index:3;max-width:min(92vw,600px)}
+.fanhero__scrim{position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,transparent 0%,rgba(244,236,223,.65) 55%,var(--ivory-2) 100%);z-index:2;pointer-events:none}
+.fanhero__content{position:relative;z-index:3;padding:clamp(1.6rem,3.5vw,3rem) 0 clamp(2.4rem,5vw,4rem);text-align:left}
 .fanhero__content .eyebrow{margin-bottom:.5rem}
-.fantype--bottom{position:static;text-align:left;font-size:clamp(40px,7.5vw,88px)}
+.fantype--bottom{position:static;text-align:left;font-size:clamp(38px,6.4vw,80px)}
 .fantype--bottom em{color:var(--gold);font-style:italic}
-.fanhero__lede{margin:1rem 0 1.4rem;color:var(--muted);font-size:clamp(1rem,1.5vw,1.18rem);max-width:42ch}
-.fanhero__tl{position:absolute;top:clamp(90px,12vh,140px);left:clamp(16px,5vw,90px);z-index:4;display:flex;flex-direction:column;gap:10px;pointer-events:none}
-.fanbrand{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+.fanhero__lede{margin:1rem 0 1.5rem;color:var(--muted);font-size:clamp(1rem,1.5vw,1.18rem);max-width:46ch}
+.fanhero__tl{position:absolute;top:clamp(18px,4vh,34px);left:clamp(16px,5vw,90px);z-index:4;display:flex;flex-direction:column;align-items:flex-start;gap:8px;pointer-events:none}
+.fanbrand{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);background:rgba(253,250,245,.76);backdrop-filter:blur(5px);padding:.36rem .7rem;border-radius:999px}
 .fanbrand__mark{position:relative;width:13px;height:13px;border-radius:50%;background:var(--gold)}
 .fanbrand__mark::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--gold) 42%,transparent)}
-.fancounter{display:flex;align-items:center;gap:7px;font-weight:600;font-size:12px;letter-spacing:.12em;color:color-mix(in srgb,var(--green) 52%,transparent);font-variant-numeric:tabular-nums}
+.fancounter{display:flex;align-items:center;gap:7px;font-weight:600;font-size:12px;letter-spacing:.12em;color:color-mix(in srgb,var(--green) 60%,transparent);font-variant-numeric:tabular-nums;background:rgba(253,250,245,.76);backdrop-filter:blur(5px);padding:.34rem .7rem;border-radius:999px}
 .fancounter b{color:var(--green);font-weight:700}
 .fancounter i{width:22px;height:1px;background:color-mix(in srgb,var(--green) 32%,transparent);font-style:normal}
 .fanwheel{position:absolute;left:50%;top:var(--cy,140vh);width:0;height:0;z-index:1;transform:translate(-50%,-50%) rotate(var(--rot,0deg));will-change:transform}
 .fancard{position:absolute;left:0;top:0;width:var(--cw,210px);height:var(--ch,300px);margin-left:calc(var(--cw,210px) / -2);margin-top:calc(var(--ch,300px) / -2);border-radius:16px;overflow:hidden;background:var(--green-deep);box-shadow:0 26px 52px -18px rgba(27,57,44,.5);transform:rotate(var(--a)) translateY(calc(var(--r,620px) * -1))}
 .fancard img{width:100%;height:100%;object-fit:cover;display:block}
 @media (max-width:620px){
-  .fanhero{height:92svh;min-height:540px}
-  .fanhero__lede{display:none}
+  .fanhero__stage{height:clamp(290px,44vh,430px)}
+  .fantype--bottom{font-size:clamp(36px,11vw,56px)}
 }
 @media (prefers-reduced-motion:reduce){.fanwheel{will-change:auto}}
 
