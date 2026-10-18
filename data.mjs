@@ -206,7 +206,7 @@ export const events = [
     ],
     gallery: ["bride-squad", "groomsmen", "bridesmaids", "friends-laugh", "strip-ashes", "couple-bw"],
     recommend: ["signature", "premium"],
-    faqRefs: ["events", "included", "cost", "travel", "deposit", "insured"],
+    faqRefs: ["events", "included", "cost", "advance", "booth-type", "travel", "deposit", "insured"],
   },
   {
     slug: "corporate-events",
@@ -232,7 +232,7 @@ export const events = [
     ],
     gallery: ["group-women", "booth-candid", "prop-single", "strip-group"],
     recommend: ["signature", "premium"],
-    faqRefs: ["events", "included", "cost", "travel", "setup", "insured"],
+    faqRefs: ["events", "included", "cost", "holiday", "booth-type", "travel", "setup", "insured"],
   },
   {
     slug: "parties",
@@ -258,7 +258,7 @@ export const events = [
     ],
     gallery: ["nye-group", "gala-trio", "holiday-couple", "birthday-cake", "party-props", "strip-craigers"],
     recommend: ["classic", "signature"],
-    faqRefs: ["events", "included", "cost", "minimum", "travel", "deposit"],
+    faqRefs: ["events", "included", "cost", "graduation", "holiday", "minimum", "travel", "deposit"],
   },
 ];
 
@@ -328,6 +328,56 @@ export const areas = [
       "Grimes is an easy drive from our Waukee base, so your celebration gets early setup, a friendly attendant and complimentary travel with every package.",
     landmarks: "The Grove, Edge of Town, Highway 141",
   },
+  {
+    slug: "altoona",
+    city: "Altoona",
+    distance: "a short drive east",
+    blurb:
+      "From Adventureland and Prairie Meadows to the Outlets of Des Moines and backyard receptions, we bring a full DSLR booth to Altoona with free setup, breakdown and complimentary travel on every package.",
+    landmarks: "Adventureland, Prairie Meadows, the Outlets of Des Moines",
+  },
+  {
+    slug: "bondurant",
+    city: "Bondurant",
+    distance: "just northeast of the metro",
+    blurb:
+      "Bondurant weddings, graduations and company parties get the same studio-quality booth and friendly attendant we bring across the metro, with complimentary travel on every package.",
+    landmarks: "the Depot District, Lake Petocka",
+  },
+  {
+    slug: "adel",
+    city: "Adel",
+    distance: "minutes west of base",
+    blurb:
+      "Adel is minutes from our Waukee base, so your wedding or party gets the earliest setup in the county, a friendly attendant and complimentary travel on every package.",
+    landmarks: "the historic Courthouse Square, the Raccoon River Valley Trail, Island Park",
+  },
+  {
+    slug: "norwalk",
+    city: "Norwalk",
+    distance: "just south of the metro",
+    blurb:
+      "Norwalk receptions, graduations and company parties sit well inside our complimentary travel range, with the same DSLR quality and friendly attendant you see across the metro.",
+    landmarks: "Elizabeth Holland Park, the Great Western Trail",
+  },
+  {
+    slug: "indianola",
+    city: "Indianola",
+    distance: "south of the metro",
+    blurb:
+      "From National Balloon Classic season to Simpson College celebrations and winery weddings, we bring a full DSLR booth to Indianola with complimentary travel on every package.",
+    landmarks: "the National Balloon Classic, Simpson College, Summerset Winery",
+  },
+  {
+    slug: "pella",
+    city: "Pella",
+    distance: "a scenic drive southeast",
+    blurb:
+      "From Tulip Time weddings to vineyard receptions and historic venues, we bring a full DSLR booth to Pella. Travel is quoted up front so there are never any surprises.",
+    landmarks: "Tulip Time, the Historic Village, Central College",
+    travelLine:
+      "Pella sits just beyond our complimentary travel range, so a flat travel fee is calculated and confirmed before you book — no surprises on the day.",
+  },
 ];
 
 // FAQ — visible + FAQPage schema. Answers are HTML (links allowed).
@@ -345,7 +395,27 @@ export const faqs = [
   {
     id: "cost",
     q: "How much does it cost to rent a photo booth?",
-    a: 'Packages start at $499 for 2 hours (Classic), $699 for 3 hours (Signature) and $899 for 4 hours (Premium). Additional hours are $100 each. See full <a href="/packages/">packages and pricing</a>.',
+    a: 'Packages start at $499 for 2 hours (Classic), $699 for 3 hours (Signature) and $899 for 4 hours (Premium). Additional hours are $100 each. See full <a href="/packages/">packages and pricing</a>, or read our <a href="/photo-booth-cost/">photo booth cost guide</a> for a full breakdown.',
+  },
+  {
+    id: "booth-type",
+    q: "What kind of photo booth is it?",
+    a: 'It is a modern open-air booth built around a professional DSLR camera, studio lighting and your choice of backdrop. Open-air means there is no cramped enclosed box, so big groups fit in one frame and every photo looks like a studio portrait. See the <a href="/gallery/">gallery</a> and <a href="/how-it-works/">how it works</a>.',
+  },
+  {
+    id: "advance",
+    q: "How far in advance should I book a photo booth?",
+    a: 'The sooner the better. For <a href="/weddings/">weddings</a> and peak dates (holiday season, graduation weekends and New Year\'s) we recommend reserving three to six months out, since popular Saturdays book first. That said, reach out even on short notice; a 50% deposit holds your date the moment it clears.',
+  },
+  {
+    id: "graduation",
+    q: "Do you do graduation party photo booths?",
+    a: 'Yes. Graduation parties are one of our most popular bookings. The <a href="/packages/">Classic package</a> is a great fit for an open house, and the booth brings props, instant prints and digital sharing so every guest leaves with a keepsake. See <a href="/parties/">parties and celebrations</a>.',
+  },
+  {
+    id: "holiday",
+    q: "Can you do company and holiday parties?",
+    a: 'Absolutely. We run <a href="/corporate-events/">corporate events</a> and <a href="/parties/">holiday parties</a> throughout the season with custom branded strips, a logo or message on the rear screen and a friendly attendant. December books out early, so reserve your date ahead of time.',
   },
   {
     id: "minimum",

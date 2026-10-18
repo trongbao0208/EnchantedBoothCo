@@ -168,6 +168,11 @@ p{margin:0 0 1rem}
 .rate-table th,.rate-table td{text-align:left;padding:.85rem .2rem;border-bottom:1px solid var(--rule)}
 .rate-table th{font-weight:500;color:var(--ink)}
 .rate-table td{text-align:right;font-family:var(--display);color:var(--green)}
+.rate-table--wide td{text-align:left;font-family:var(--body,inherit);color:var(--muted);vertical-align:top}
+.rate-table--wide thead th{font-family:var(--display);color:var(--green);font-weight:600;border-bottom:2px solid var(--rule)}
+.rate-table--wide th[scope=row]{font-family:var(--display)}
+.rate-table--wide th[scope=row] a{color:var(--ink)}
+.rate-table--wide td:first-of-type{color:var(--green);font-family:var(--display);white-space:nowrap}
 .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}
 .info-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:1.6rem 1.4rem}
 .info-card h3{font-size:1.2rem;margin:0 0 .5rem}

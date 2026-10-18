@@ -487,7 +487,7 @@ ${pageHead(trail, "Packages & pricing", "Photo booth packages & pricing in Des M
     <div>
       ${eyebrow("", "Travel", true)}
       <h2 class="section-h">Complimentary travel included</h2>
-      <p>${esc(travel.note)}</p>
+      <p>${esc(travel.note)} <a href="/photo-booth-cost/">See the full pricing guide →</a></p>
       <table class="rate-table"><tbody>${travel.tiers.map(([r, p]) => `<tr><th scope="row">${esc(r)}</th><td>${esc(p)}</td></tr>`).join("")}</tbody></table>
     </div>
   </div>
@@ -540,6 +540,15 @@ function buildGallery() {
   const items = gallery.map((g) => `<figure class="ph" data-cat="${g.cat}">${img(g.key, g.alt, { sizes: "(max-width: 760px) 50vw, 25vw" })}</figure>`).join("");
   const body = `
 ${pageHead(trail, "The gallery", "Photo booth gallery from Des Moines events", "Real weddings, parties and corporate events across the metro. This is what your guests get, studio-quality photos and custom strips they actually keep.")}
+<section class="band band--tight">
+  <div class="wrap wrap--narrow prose">
+    <p>Every photo in this gallery was taken at a real event across the ${esc(site.metro)} on our professional DSLR open-air booth. It is the clearest preview of what your own guests walk away with: sharp, well-lit portraits and custom photo strips they actually keep.</p>
+    <p><strong>Weddings.</strong> Bridal parties, grandparents and the whole dance floor, printed on a strip matched to your colors and your date. See more on our <a href="/weddings/">wedding photo booth</a> page.</p>
+    <p><strong>Parties &amp; celebrations.</strong> Birthdays, graduations, holiday parties and New Year's, with a prop kit that keeps the booth busy all night. Explore <a href="/parties/">parties and celebrations</a>.</p>
+    <p><strong>Corporate events.</strong> Branded strips, a logo on the rear screen and instant sharing for company parties and activations. See <a href="/corporate-events/">corporate events</a>.</p>
+    <p><strong>The photo strips.</strong> Every design below is a real custom layout we printed on the night. Ready to plan yours? <a href="/packages/">Compare packages</a> or <a href="/contact/">get a quote</a>.</p>
+  </div>
+</section>
 ${coverflowSection()}
 <section class="band band--tight">
   <div class="wrap">
@@ -611,6 +620,89 @@ ${finalCta()}`;
     schema: [breadcrumb(trail), faqSchema(faqs)],
     body,
     current: "/faq/",
+  });
+}
+
+function buildPricingGuide() {
+  const trail = [{ name: "Home", href: "/" }, { name: "Photo Booth Cost", href: "/photo-booth-cost/" }];
+  const bestFor = {
+    classic: "Graduation open houses, cocktail hours and intimate gatherings.",
+    signature: "Weddings and corporate parties that want unlimited custom prints.",
+    premium: "Large galas, full weddings and brand activations.",
+  };
+  const costFaqs = [
+    {
+      id: "per-hour",
+      q: "How much does a photo booth cost per hour in Des Moines?",
+      a: 'Our packages are priced by the event rather than strictly by the hour, starting at $499 for two hours. If you want to keep the booth running longer, extra hours are a flat $100 each. Everything — the DSLR setup, studio lighting, unlimited prints and a friendly attendant — is already included in that price. See the full <a href="/packages/">packages</a>.',
+    },
+    {
+      id: "why-less",
+      q: "Why do some photo booths cost less?",
+      a: "Budget rentals are usually a tablet on a stand with no attendant and no prints. Every Enchanted Booth package is a professional DSLR booth with studio lighting, your choice of backdrop, unlimited custom photo strips and a real attendant from setup to breakdown — a different experience and a different photo.",
+    },
+    {
+      id: "deposit",
+      q: "Is a deposit required?",
+      a: "Yes. A 50% deposit secures your date and the balance is due before the event. Deposits are non-refundable but may be applied to a rescheduled date, subject to availability.",
+    },
+  ];
+  const body = `
+${pageHead(trail, "Pricing guide", "How much does a photo booth cost in Des Moines?", "Short answer: from $499. Here is the full, no-surprises breakdown — what each package includes, the price per extra hour, travel fees and the deposit — so you can budget your event with confidence.")}
+
+<section class="band band--tight">
+  <div class="wrap wrap--narrow prose">
+    <p>Photo booth rental in the ${esc(site.metro)} typically runs from about $400 to $1,200 depending on hours, prints and whether a real attendant is included. At Enchanted Booth Co. our pricing is public and flat: <strong>${money(packages[0].price)} to ${money(packages[packages.length - 1].price)}</strong>, with no hidden setup or breakdown fees. Here is exactly what goes into it.</p>
+  </div>
+</section>
+
+<section class="band band--soft band--tight">
+  <div class="wrap">
+    <div class="section-head">${eyebrow("", "Package pricing", true)}<h2 class="section-h">What each package costs</h2></div>
+    <table class="rate-table rate-table--wide">
+      <thead><tr><th scope="col">Package</th><th scope="col">Price</th><th scope="col">Service time</th><th scope="col">Best for</th></tr></thead>
+      <tbody>${packages.map((p) => `<tr><th scope="row"><a href="/packages/#${p.slug}">${esc(p.name)}</a></th><td>${money(p.price)}</td><td>${esc(p.hours)}</td><td>${esc(bestFor[p.slug] || p.blurb)}</td></tr>`).join("")}</tbody>
+    </table>
+    <p class="prose"><a class="arrow" href="/packages/">Compare everything each package includes →</a></p>
+  </div>
+</section>
+
+<section class="band band--tight">
+  <div class="wrap split">
+    <div>
+      ${eyebrow("", "Add-ons", true)}
+      <h2 class="section-h">What changes the price</h2>
+      <ul class="addons">${addOns.map((a) => `<li><span class="addon__name">${esc(a.name)}</span><span class="addon__price">${esc(a.price)}</span><span class="addon__note">${esc(a.note)}</span></li>`).join("")}</ul>
+    </div>
+    <div>
+      ${eyebrow("", "Travel", true)}
+      <h2 class="section-h">Travel fees</h2>
+      <p>${esc(travel.note)}</p>
+      <table class="rate-table"><tbody>${travel.tiers.map(([r, p]) => `<tr><th scope="row">${esc(r)}</th><td>${esc(p)}</td></tr>`).join("")}</tbody></table>
+    </div>
+  </div>
+</section>
+
+<section class="band band--soft band--tight">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">${eyebrow("", "Included at every price", true)}<h2 class="section-h">No surprise line items</h2></div>
+    <ul class="ticks">${alwaysIncluded.map((i) => `<li>${esc(i)}</li>`).join("")}</ul>
+    <p class="prose">${esc(booking.deposit)}</p>
+  </div>
+</section>
+
+<section class="band band--tight">
+  <div class="wrap"><div class="section-head">${eyebrow("", "Cost questions", true)}<h2 class="section-h">Photo booth pricing FAQ</h2></div>${faqBlock(costFaqs)}</div>
+</section>
+
+${finalCta("Want an exact quote for your date?", "Send your event date, city and guest count and we will come back with a flat, all-in price.")}`;
+  page({
+    pathName: "/photo-booth-cost/",
+    title: "Photo Booth Rental Cost in Des Moines, IA | Pricing Guide",
+    description: "How much does a photo booth cost in Des Moines? A transparent pricing guide: packages from $499, $100 per extra hour, travel fees, deposits and what's included.",
+    schema: [breadcrumb(trail), faqSchema(costFaqs)],
+    body,
+    current: "",
   });
 }
 
@@ -706,7 +798,7 @@ ${pageHead(trail, "Service area", `Photo booth rental in ${a.city}, ${site.regio
     <div class="prose">
       <h2 class="section-h">A luxury photo booth, ${esc(a.distance)}</h2>
       <p>We bring the full Enchanted Booth experience to ${esc(a.city)}: a professional DSLR booth, studio lighting, your choice of backdrop, unlimited custom prints and a friendly attendant from setup to breakdown. Popular spots we love nearby include ${esc(a.landmarks)}.</p>
-      <p>Every package includes free delivery, setup and breakdown. ${esc(a.city)} sits within our complimentary travel range, so there are no surprise fees, and any travel beyond is confirmed up front.</p>
+      <p>Every package includes free delivery, setup and breakdown. ${a.travelLine ? esc(a.travelLine) : `${esc(a.city)} sits within our complimentary travel range, so there are no surprise fees, and any travel beyond is confirmed up front.`}</p>
       <div class="cta-row">${quoteBtn("Get a quote")}${ghostBtn("View packages", "/packages/")}</div>
     </div>
     <div class="hero__media">${img("nye-group", altFor("nye-group"), { sizes: "(max-width: 900px) 100vw, 42vw" })}</div>
@@ -862,7 +954,7 @@ function buildRobots() {
 }
 function allRoutes() {
   return [
-    "/", "/packages/", "/gallery/", "/how-it-works/", "/faq/", "/contact/", "/privacy/",
+    "/", "/packages/", "/gallery/", "/how-it-works/", "/faq/", "/photo-booth-cost/", "/contact/", "/privacy/",
     ...events.map((e) => `/${e.slug}/`),
     "/service-areas/",
     ...areas.map((a) => `/service-areas/${a.slug}/`),
@@ -900,6 +992,7 @@ Enchanted Booth Co. is a luxury photo booth rental serving the Des Moines metro.
 ## Packages & Pricing
 ${pkgLines}
 Add-ons: additional hours ${addOns[0].price}; ${addOns[1].name} ${addOns[1].price}. Minimum rental is 2 hours.
+Full pricing guide: ${D}/photo-booth-cost/
 
 ## Travel
 Complimentary travel is included with every package (30 miles from ${site.base}; 40 miles on Premium). Beyond that: 30-60 miles $100, 60-120 miles $200, 120+ miles custom quote. All fees confirmed before booking.
@@ -927,6 +1020,7 @@ buildPackages();
 buildGallery();
 buildHowItWorks();
 buildFaq();
+buildPricingGuide();
 events.forEach(buildEvent);
 buildAreasIndex();
 areas.forEach(buildArea);

@@ -335,7 +335,10 @@
     var CF_W = 230, CF_H = 330, CF_PERSP = 1680, CF_AUTO = 3600, CF_EASE = 0.14, CF_SENS = 0.0072, CF_START = Math.floor(CFN / 2);
     var cfScale = 1;
     function cfLayout() {
-      var f = Math.max(0.56, Math.min(1, innerWidth / 1180));
+      // Bigger cards on phones/small screens: raise the scale floor (was 0.56)
+      // so the center card reads large on mobile; the whole coverflow (gap/depth)
+      // scales with f, and the stage + section height grow to match.
+      var f = Math.max(0.82, Math.min(1, innerWidth / 1180));
       cfSection.style.setProperty("--cf-cw", Math.round(CF_W * f) + "px");
       cfSection.style.setProperty("--cf-ch", Math.round(CF_H * f) + "px");
       cfSection.style.setProperty("--cf-persp", Math.max(1050, CF_PERSP * f) + "px");
