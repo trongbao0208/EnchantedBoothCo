@@ -364,7 +364,7 @@ function reviewsBand({ heading = "Loved across the Des Moines metro", soft = tru
           <span class="revcar__count" data-rev-count aria-live="polite"></span>
           <button class="revcar__arrow" type="button" data-rev-next aria-label="Next reviews">${chevSvg("right")}</button>
         </div>
-        <a class="btn btn--ghost" href="${site.googleReviewsUrl}" target="_blank" rel="noopener">Read all ${site.googleReviewCount} reviews on Google</a>
+        <a class="btn btn--ghost" href="${site.googleReviewsUrl}" target="_blank" rel="noopener">Read more reviews on Google</a>
       </div>
     </div>
   </div>
