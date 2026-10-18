@@ -189,6 +189,20 @@ p{margin:0 0 1rem}
 .review__by{display:flex;flex-direction:column;margin-top:auto}
 .review__name{font-family:var(--display);color:var(--green);font-size:1.05rem}
 .review__date{font-size:.82rem;color:var(--muted)}
+/* reviews carousel */
+.revcar{margin-top:1.4rem}
+.revcar__viewport{overflow:hidden}
+.revcar__track{display:flex;gap:clamp(1rem,2.2vw,1.6rem);transition:transform .45s cubic-bezier(.22,.61,.36,1);will-change:transform;align-items:stretch}
+.revcar__track .review{flex:0 0 calc((100% - 2 * clamp(1rem,2.2vw,1.6rem)) / 3)}
+@media (max-width:860px){.revcar__track .review{flex-basis:calc((100% - clamp(1rem,2.2vw,1.6rem)) / 2)}}
+@media (max-width:600px){.revcar__track .review{flex-basis:100%}}
+.revcar__foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-top:1.5rem;flex-wrap:wrap}
+.revcar__nav{display:flex;align-items:center;gap:.9rem}
+.revcar__arrow{width:46px;height:46px;border-radius:50%;border:1px solid var(--rule);background:var(--card);color:var(--green);display:grid;place-items:center;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.revcar__arrow svg{width:20px;height:20px}
+.revcar__arrow:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.revcar__arrow:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.revcar__count{font-family:var(--display);font-size:1rem;color:var(--muted);min-width:5.5rem;text-align:center}
 @media (max-width:860px){.review-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:600px){.review-grid{grid-template-columns:1fr}}
 .info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.1rem}

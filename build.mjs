@@ -344,7 +344,8 @@ function reviewCard(r) {
     <figcaption class="review__by"><span class="review__name">${esc(r.author)}</span><span class="review__date">${esc(r.dateText)}</span></figcaption>
   </figure>`;
 }
-function reviewsBand({ heading = "Loved across the Des Moines metro", limit = 3, soft = true } = {}) {
+const chevSvg = (dir) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${dir === "left" ? '<path d="m15 18-6-6 6-6"/>' : '<path d="m9 18 6-6-6-6"/>'}</svg>`;
+function reviewsBand({ heading = "Loved across the Des Moines metro", soft = true } = {}) {
   if (!(site.googleRating >= 4.6) || !reviews.items.length) return "";
   const rr = site.googleRating.toFixed(1);
   return `<section class="band${soft ? " band--soft" : ""} band--tight reviews">
@@ -355,8 +356,17 @@ function reviewsBand({ heading = "Loved across the Des Moines metro", limit = 3,
         <span class="reviews__num">${rr}</span>${starRow(5)}<span class="reviews__count">${site.googleReviewCount} Google reviews</span>
       </a>
     </div>
-    <div class="review-grid">${reviews.items.slice(0, limit).map(reviewCard).join("")}</div>
-    <div class="section-foot"><a class="btn btn--ghost" href="${site.googleReviewsUrl}" target="_blank" rel="noopener">Read all ${site.googleReviewCount} reviews on Google</a></div>
+    <div class="revcar" data-revcar>
+      <div class="revcar__viewport"><div class="revcar__track">${reviews.items.map(reviewCard).join("")}</div></div>
+      <div class="revcar__foot">
+        <div class="revcar__nav">
+          <button class="revcar__arrow" type="button" data-rev-prev aria-label="Previous reviews">${chevSvg("left")}</button>
+          <span class="revcar__count" data-rev-count aria-live="polite"></span>
+          <button class="revcar__arrow" type="button" data-rev-next aria-label="Next reviews">${chevSvg("right")}</button>
+        </div>
+        <a class="btn btn--ghost" href="${site.googleReviewsUrl}" target="_blank" rel="noopener">Read all ${site.googleReviewCount} reviews on Google</a>
+      </div>
+    </div>
   </div>
 </section>`;
 }
@@ -484,7 +494,7 @@ function buildHome() {
 
 ${cascadeSection()}
 
-${reviewsBand({ heading: "Loved across the Des Moines metro", limit: 3, soft: false })}
+${reviewsBand({ heading: "Loved across the Des Moines metro", soft: false })}
 
 <section class="band band--soft">
   <div class="wrap">
@@ -754,7 +764,7 @@ function buildReviews() {
   const rr = site.googleRating.toFixed(1);
   const body = `
 ${pageHead(trail, "Reviews", "Photo booth reviews in the Des Moines metro", `Enchanted Booth Co. is rated ${rr} stars from ${site.googleReviewCount} Google reviews. Here is what couples, planners and party hosts across the metro say after their event.`)}
-${reviewsBand({ heading: "What our clients say", limit: reviews.items.length, soft: false })}
+${reviewsBand({ heading: "What our clients say", soft: false })}
 ${finalCta("Ready to be our next five-star event?", "Send your date and we will put together a package that fits and hold your spot.")}`;
   page({
     pathName: "/reviews/",

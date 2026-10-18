@@ -387,3 +387,37 @@
     cfGo(CF_START); cfPos = CF_START; cfFrame(); cfSyncAuto();
   }
 })();
+
+// Reviews carousel — show N cards per view (3 / 2 / 1), page with prev/next arrows.
+(function () {
+  function perView() { var w = window.innerWidth; return w <= 600 ? 1 : (w <= 860 ? 2 : 3); }
+  function initCar(car) {
+    var track = car.querySelector(".revcar__track");
+    var vp = car.querySelector(".revcar__viewport");
+    if (!track || !vp) return;
+    var total = track.children.length;
+    var prev = car.querySelector("[data-rev-prev]");
+    var next = car.querySelector("[data-rev-next]");
+    var count = car.querySelector("[data-rev-count]");
+    var page = 0;
+    function maxPage() { return Math.max(0, Math.ceil(total / perView()) - 1); }
+    function render() {
+      var pv = perView(), mp = maxPage();
+      if (page > mp) page = mp; if (page < 0) page = 0;
+      var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || "0") || 0;
+      var V = vp.clientWidth;
+      var offset = Math.min(page * (V + gap), Math.max(0, track.scrollWidth - V));
+      track.style.transform = "translateX(" + (-offset) + "px)";
+      var start = page * pv + 1, end = Math.min(start + pv - 1, total);
+      if (count) count.textContent = (end > start ? start + "–" + end : String(start)) + " of " + total;
+      var single = mp === 0;
+      [prev, next].forEach(function (b) { if (b) { b.style.visibility = single ? "hidden" : "visible"; } });
+    }
+    if (prev) prev.addEventListener("click", function () { var mp = maxPage(); page = page <= 0 ? mp : page - 1; render(); });
+    if (next) next.addEventListener("click", function () { var mp = maxPage(); page = page >= mp ? 0 : page + 1; render(); });
+    var t; window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(render, 120); });
+    render();
+  }
+  var cars = document.querySelectorAll("[data-revcar]");
+  for (var i = 0; i < cars.length; i++) initCar(cars[i]);
+})();
