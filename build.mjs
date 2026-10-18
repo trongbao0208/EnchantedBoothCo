@@ -240,7 +240,6 @@ function footer() {
   </div>
   <div class="wrap foot__bottom">
     <small class="foot__copyright">&copy; ${new Date().getFullYear()} ${esc(site.legalName)}. &middot; <a href="/privacy/">Privacy &amp; cookies</a></small>
-    <small class="foot__copyright">Luxury photo booth rental in the ${esc(site.metro)}.</small>
   </div>
 </footer>`;
 }
@@ -326,17 +325,20 @@ const finalCta = (title = "Ready to make it enchanted?", text = "Send your date 
 function buildHome() {
   const featChips = ["DSLR camera quality", "Instant pro prints", "Studio lighting", "Friendly on-site attendants"];
   const body = `
-<section class="hero">
-  <div class="wrap hero__inner">
-    <div class="hero__text">
-      ${eyebrow("", "Luxury photo booth · " + site.metro, true)}
-      <h1 class="hero__h1">Des Moines' most <em>enchanted</em> photo booth</h1>
-      <p class="hero__lede">Luxury photo booth rental for weddings, parties and corporate events across the Des Moines metro. Studio-quality photos, instant prints and a friendly attendant who makes it effortless.</p>
-      <ul class="hero__chips">${featChips.map((c) => `<li>${esc(c)}</li>`).join("")}</ul>
+<section class="fanhero" id="fanhero">
+  <h1 class="sr-only">Des Moines' most enchanted photo booth — luxury photo booth rental for weddings, parties and corporate events</h1>
+  <div class="fanhero__stage" id="fanhero-stage">
+    <div class="fantype fantype--top" aria-hidden="true"><span>The</span><span>Most</span><span>Enchanted</span></div>
+    <div class="fanwheel" id="fanhero-wheel" data-images='${JSON.stringify(["groomsmen", "bride-squad", "nye-group", "gala-trio", "holiday-couple", "friends-laugh", "wedding-kiss", "group-women"].map((k) => `/assets/img/${k}-lg.webp`))}'></div>
+    <div class="fanhero__bottom">
+      <div class="fantype fantype--bottom" aria-hidden="true"><span>Photo</span><span>Booth</span></div>
+      <p class="fanhero__lede">Luxury photo booth rental for weddings, parties and corporate events across the ${esc(site.metro)}. Grab and spin.</p>
       <div class="cta-row">${quoteBtn("Get a quote")}${ghostBtn("View packages", "/packages/")}</div>
-      <p class="hero__trust">Weddings · Corporate · Parties &nbsp;·&nbsp; Serving ${esc(site.base)} and the whole metro</p>
     </div>
-    <div class="hero__media">${img("hero", altFor("hero"), { sizes: "(max-width: 900px) 100vw, 46vw", cls: "hero__img", eager: true })}</div>
+    <div class="fanhero__tl" aria-hidden="true">
+      <div class="fanbrand"><span class="fanbrand__mark"></span>${esc(site.metro)}</div>
+      <div class="fancounter"><b id="fan-idx">01</b><i></i><span id="fan-total">08</span></div>
+    </div>
   </div>
 </section>
 
