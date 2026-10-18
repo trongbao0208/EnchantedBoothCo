@@ -190,8 +190,7 @@ function header(current) {
 <header class="hdr" data-header>
   <div class="wrap hdr__inner">
     <a class="brand" href="/" aria-label="${esc(site.name)}, home">
-      <span class="brand__mark" aria-hidden="true">E</span>
-      <span class="brand__name">Enchanted Booth<span class="brand__co"> Co.</span></span>
+      <img class="brand__logo" src="/assets/img/logo-wordmark.png" width="680" height="150" alt="" fetchpriority="high">
     </a>
     <nav class="nav" aria-label="Main">
       <button class="nav__toggle" aria-expanded="false" aria-controls="nav-list"><span class="sr-only">Menu</span><span class="bars" aria-hidden="true"></span></button>
@@ -222,7 +221,7 @@ function footer() {
   </div>
   <div class="wrap foot__grid">
     <div class="foot__brand">
-      <a class="brand brand--foot" href="/" aria-label="${esc(site.name)}, home"><span class="brand__mark" aria-hidden="true">E</span><span class="brand__name">Enchanted Booth<span class="brand__co"> Co.</span></span></a>
+      <a class="brand--foot" href="/" aria-label="${esc(site.name)}, home"><img class="foot__logo-img" src="/assets/img/logo-full.png" width="560" height="568" alt="" loading="lazy"></a>
       <p>Luxury photo booth rental for weddings, corporate events and parties across the ${site.metro}. DSLR quality, instant prints, real attendants.</p>
       <p class="foot__socials"><a href="${site.instagram}" target="_blank" rel="noopener">Instagram</a> · <a href="${site.facebook}" target="_blank" rel="noopener">Facebook</a> · <a href="${site.tiktok}" target="_blank" rel="noopener">TikTok</a></p>
     </div>
