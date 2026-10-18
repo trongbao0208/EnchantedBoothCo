@@ -185,9 +185,10 @@
       function fanLayout() {
         var vw = fanStage.clientWidth, vh = fanStage.clientHeight;
         var narrow = vw < 640;
-        var ch = Math.max(150, Math.min(vh * (narrow ? 0.44 : 0.52), vw * (narrow ? 0.46 : 0.4), 330));
+        var ch = Math.max(150, Math.min(vh * (narrow ? 0.48 : 0.6), vw * (narrow ? 0.4 : 0.24), narrow ? 210 : 360));
         var cw = ch * CARD_ASPECT;
-        var r = Math.max(vw * (narrow ? 1.05 : RADIUS_VW), cw * (narrow ? 5.2 : RADIUS_MINK));
+        // radius tied to card width → same fan density at every screen size (cards just touch, slight overlap).
+        var r = cw * 3.7;
         fanWheel.style.setProperty("--cw", cw + "px");
         fanWheel.style.setProperty("--ch", ch + "px");
         fanWheel.style.setProperty("--r", r + "px");
