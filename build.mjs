@@ -517,15 +517,34 @@ ${finalCta()}`;
   });
 }
 
+function coverflowSection() {
+  const cfc = [
+    { key: "bride-squad", glow: "#B98A3E" }, { key: "nye-group", glow: "#6E8C7A" },
+    { key: "gala-trio", glow: "#C8923D" }, { key: "groomsmen", glow: "#3E6B54" },
+    { key: "wed-08", glow: "#9D6F25" }, { key: "holiday-couple", glow: "#D1A24E" },
+    { key: "wed-13", glow: "#5A7A6B" }, { key: "friends-laugh", glow: "#B98A3E" },
+    { key: "party-07", glow: "#C8923D" },
+  ];
+  const N = cfc.length;
+  const items = cfc.map((c, i) => `<button type="button" class="cf-card" aria-label="${esc(altFor(c.key))}, photo ${i + 1} of ${N}" data-glow="${c.glow}"><span class="cf-card__inner"><span class="cf-card__media"><img src="/assets/img/${c.key}-lg.webp" alt="${esc(altFor(c.key))}" draggable="false" loading="lazy"></span></span></button>`).join("");
+  return `<section id="coverflow" class="coverflow" aria-roledescription="carousel" aria-label="Gallery showcase">
+  <div class="cf-halo" aria-hidden="true"></div>
+  <div class="cf-stage" id="cf-stage" role="group" aria-label="Drag, swipe or use arrow keys to browse photos"><div class="cf-deck" id="cf-deck">${items}</div></div>
+  <h2 class="cf-caption">Moments that stand out</h2>
+  <a class="cf-cta js-cta" href="/contact/"><span>Get a quote</span><span class="cf-cta__dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
+  <p class="sr-only" aria-live="polite" id="cf-live"></p>
+</section>`;
+}
 function buildGallery() {
   const trail = [{ name: "Home", href: "/" }, { name: "Gallery", href: "/gallery/" }];
   const filters = galleryCats.map((c, i) => `<button class="gfilter${i === 0 ? " is-active" : ""}" data-filter="${c.id}">${esc(c.label)}</button>`).join("");
   const items = gallery.map((g) => `<figure class="ph" data-cat="${g.cat}">${img(g.key, g.alt, { sizes: "(max-width: 760px) 50vw, 25vw" })}</figure>`).join("");
   const body = `
 ${pageHead(trail, "The gallery", "Photo booth gallery from Des Moines events", "Real weddings, parties and corporate events across the metro. This is what your guests get, studio-quality photos and custom strips they actually keep.")}
+${coverflowSection()}
 <section class="band band--tight">
   <div class="wrap">
-    <div class="gfilters" role="tablist" aria-label="Filter the gallery">${filters}</div>
+    <div class="section-head" style="margin-bottom:1.6rem">${eyebrow("", "Browse everything", true)}<h2 class="section-h">The full gallery</h2></div>
     <div class="masonry" id="gallery-grid">${items}</div>
   </div>
 </section>

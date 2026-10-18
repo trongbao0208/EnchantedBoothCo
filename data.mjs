@@ -399,6 +399,20 @@ export const gallery = [
   { key: "strip-drakes", alt: "Black and white custom wedding photo strip", cat: "strips" },
   { key: "strip-group", alt: "Group photo strip from a Des Moines corporate event booth", cat: "corporate" },
   { key: "backdrop-01", alt: "Floral backdrop detail at a West Des Moines wedding photo booth", cat: "details" },
+  { key: "wed-07", alt: "Multigenerational wedding group at a Des Moines photo booth", cat: "weddings" },
+  { key: "wed-08", alt: "Bride and groom laughing at a West Des Moines wedding photo booth", cat: "weddings" },
+  { key: "wed-09", alt: "Newlyweds at a wedding photo booth in Des Moines", cat: "weddings" },
+  { key: "wed-10", alt: "Wedding guests being playful at the Enchanted Booth Co. photo booth", cat: "weddings" },
+  { key: "wed-11", alt: "Family in formalwear at a Des Moines wedding photo booth", cat: "weddings" },
+  { key: "wed-12", alt: "Groomsmen and friends at a wedding photo booth in Des Moines", cat: "weddings" },
+  { key: "wed-13", alt: "Bridesmaids with bouquets at a Des Moines wedding photo booth", cat: "weddings" },
+  { key: "wed-14", alt: "Family with a baby and props at a wedding photo booth", cat: "weddings" },
+  { key: "wed-15", alt: "Flower girls and ring bearers with props at a Des Moines wedding booth", cat: "weddings" },
+  { key: "corp-05", alt: "Guests at a West Des Moines corporate event photo booth", cat: "corporate" },
+  { key: "corp-06", alt: "Coworkers making heart hands at a corporate event photo booth", cat: "corporate" },
+  { key: "party-07", alt: "Couple with fun props at a Des Moines party photo booth", cat: "parties" },
+  { key: "strip-ashes2", alt: "Custom wedding photo strip by Enchanted Booth Co.", cat: "strips" },
+  { key: "strip-caleb", alt: "Custom wedding photo strip with names and date", cat: "strips" },
 ];
 
 export const galleryCats = [

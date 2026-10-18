@@ -180,9 +180,10 @@
       }
       function fanLayout() {
         var vw = fanStage.clientWidth, vh = fanStage.clientHeight;
-        var ch = Math.max(160, Math.min(vh * 0.52, vw * 0.4, 330));
+        var narrow = vw < 640;
+        var ch = Math.max(150, Math.min(vh * (narrow ? 0.44 : 0.52), vw * (narrow ? 0.46 : 0.4), 330));
         var cw = ch * CARD_ASPECT;
-        var r = Math.max(vw * RADIUS_VW, cw * RADIUS_MINK);
+        var r = Math.max(vw * (narrow ? 1.05 : RADIUS_VW), cw * (narrow ? 5.2 : RADIUS_MINK));
         fanWheel.style.setProperty("--cw", cw + "px");
         fanWheel.style.setProperty("--ch", ch + "px");
         fanWheel.style.setProperty("--r", r + "px");
@@ -312,5 +313,69 @@
       cscrollTo(CN > 1 ? cclamp(cur + (e.key === "ArrowRight" ? 1 : -1), 0, CN - 1) / (CN - 1) : 0, true); e.preventDefault();
     });
     cascLayout(); addEventListener("resize", cascLayout); cascRender();
+  }
+
+  // ---- coverflow gallery showcase ----
+  var cfStage = doc.getElementById("cf-stage");
+  if (cfStage) {
+    var cfSection = doc.getElementById("coverflow");
+    var cfDeck = doc.getElementById("cf-deck");
+    var cfCards = [].slice.call(cfDeck.querySelectorAll(".cf-card"));
+    var cfHalo = cfSection.querySelector(".cf-halo");
+    var cfLive = doc.getElementById("cf-live");
+    var cfGlows = cfCards.map(function (c) { return c.getAttribute("data-glow") || "#B98A3E"; });
+    var cfReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var CFN = cfCards.length;
+    var CFG2 = { gap: 150, rotate: 38, depth: 150, drop: 24, shrink: 0.14, fade: 0.26, dim: 0.2, visible: 3 };
+    var CF_W = 230, CF_H = 330, CF_PERSP = 1680, CF_AUTO = 3600, CF_EASE = 0.14, CF_SENS = 0.0072, CF_START = Math.floor(CFN / 2);
+    var cfScale = 1;
+    function cfLayout() {
+      var f = Math.max(0.56, Math.min(1, innerWidth / 1180));
+      cfSection.style.setProperty("--cf-cw", Math.round(CF_W * f) + "px");
+      cfSection.style.setProperty("--cf-ch", Math.round(CF_H * f) + "px");
+      cfSection.style.setProperty("--cf-persp", Math.max(1050, CF_PERSP * f) + "px");
+      cfScale = f;
+    }
+    addEventListener("resize", cfLayout); cfLayout();
+    var cfPos = CF_START, cfTarget = CF_START;
+    var cfWrap = function (o) { o = ((o % CFN) + CFN) % CFN; return o > CFN / 2 ? o - CFN : o; };
+    function cfPaint() {
+      for (var i = 0; i < CFN; i++) {
+        var o = cfWrap(i - cfPos), ao = Math.abs(o), el = cfCards[i];
+        if (ao > CFG2.visible + 0.5) { el.style.opacity = "0"; el.style.pointerEvents = "none"; continue; }
+        var sc = Math.max(0.4, 1 - ao * CFG2.shrink);
+        el.style.transform = "translateX(" + (o * CFG2.gap * cfScale) + "px) translateY(" + (ao * CFG2.drop * cfScale) + "px) translateZ(" + (-ao * CFG2.depth * cfScale) + "px) rotateY(" + (-o * CFG2.rotate) + "deg) scale(" + sc + ")";
+        el.style.opacity = String(Math.max(0, 1 - ao * CFG2.fade));
+        el.style.filter = "brightness(" + Math.max(0.3, 1 - ao * CFG2.dim) + ") saturate(" + (1 + (1 - Math.min(1, ao)) * 0.25) + ")";
+        el.style.zIndex = String(Math.round(100 - ao * 10));
+        el.style.pointerEvents = "auto";
+      }
+      var active = ((Math.round(cfPos) % CFN) + CFN) % CFN;
+      cfHalo.style.setProperty("--cf-halo", cfGlows[active]);
+      cfSection.style.setProperty("--cf-halo", cfGlows[active]);
+    }
+    var cfLast = -1, cfDragging = false, cfMoved = false, cfLastX = 0, cfStartX = 0, cfVel = 0;
+    function cfFrame() {
+      if (!cfDragging) { if (cfReduce) cfPos = cfTarget; else { cfPos += (cfTarget - cfPos) * CF_EASE; if (Math.abs(cfTarget - cfPos) < 0.001) cfPos = cfTarget; } }
+      cfPaint();
+      var active = ((Math.round(cfPos) % CFN) + CFN) % CFN;
+      if (active !== cfLast) { cfLast = active; if (cfLive) cfLive.textContent = "Photo " + (active + 1) + " of " + CFN; }
+      requestAnimationFrame(cfFrame);
+    }
+    function cfGo(i) { var cur = Math.round(cfTarget); cfTarget = cur + cfWrap(i - cur); }
+    var cfNext = function () { cfTarget += 1; }, cfPrev = function () { cfTarget -= 1; };
+    var cfHover = false, cfTimer = null;
+    var cfAutoActive = function () { return CF_AUTO > 0 && !cfReduce && !cfHover && !cfDragging && !document.hidden; };
+    function cfSyncAuto() { clearInterval(cfTimer); cfTimer = null; if (cfAutoActive()) cfTimer = setInterval(cfNext, CF_AUTO); }
+    cfCards.forEach(function (el, i) { el.addEventListener("click", function () { if (!cfMoved) cfGo(i); }); });
+    cfStage.addEventListener("pointerdown", function (e) { cfDragging = true; cfMoved = false; cfLastX = cfStartX = e.clientX; cfVel = 0; cfStage.classList.add("-drag"); try { cfStage.setPointerCapture(e.pointerId); } catch (_) {} cfSyncAuto(); });
+    cfStage.addEventListener("pointermove", function (e) { if (!cfDragging) return; var dx = e.clientX - cfLastX; cfLastX = e.clientX; if (Math.abs(e.clientX - cfStartX) > 5) cfMoved = true; var d = -dx * CF_SENS; cfPos += d; cfVel = d; cfPaint(); });
+    var cfRelease = function () { if (!cfDragging) return; cfDragging = false; cfStage.classList.remove("-drag"); cfTarget = Math.round(cfPos + cfVel * 8); cfVel = 0; cfSyncAuto(); };
+    cfStage.addEventListener("pointerup", cfRelease); cfStage.addEventListener("pointercancel", cfRelease);
+    cfSection.addEventListener("keydown", function (e) { if (e.key === "ArrowRight") { cfNext(); e.preventDefault(); } else if (e.key === "ArrowLeft") { cfPrev(); e.preventDefault(); } });
+    cfStage.addEventListener("mouseenter", function () { cfHover = true; cfSyncAuto(); });
+    cfStage.addEventListener("mouseleave", function () { cfHover = false; cfSyncAuto(); });
+    document.addEventListener("visibilitychange", cfSyncAuto);
+    cfGo(CF_START); cfPos = CF_START; cfFrame(); cfSyncAuto();
   }
 })();
