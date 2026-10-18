@@ -5,7 +5,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import {
   site, nav, navMore, alwaysIncluded, packages, addOns, travel, steps,
-  customization, booking, events, areas, faqs, gallery, galleryCats,
+  customization, booking, events, areas, faqs, gallery, galleryCats, reviews,
 } from "./data.mjs";
 
 const OUT = path.resolve("site");
@@ -28,6 +28,10 @@ const img = (key, alt, { sizes = "(max-width: 760px) 100vw, 50vw", cls = "", eag
   return `<img src="/assets/img/${key}-lg.webp" srcset="/assets/img/${key}-sm.webp ${d.sw}w, /assets/img/${key}-lg.webp ${w}w" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}"${cls ? ` class="${cls}"` : ""} ${eager ? 'fetchpriority="high" decoding="async"' : 'loading="lazy" decoding="async"'}>`;
 };
 const altFor = (key) => gallery.find((g) => g.key === key)?.alt || `${site.name} photo booth in ${site.metro}`;
+
+// Mosaic: a small grid of several photos for a card. cols sets the grid shape.
+const mosaic = (keys, cols) =>
+  `<div class="mosaic mosaic--c${cols}">${keys.map((k) => img(k, altFor(k), { sizes: "(max-width: 760px) 45vw, 22vw", cls: "mosaic__img" })).join("")}</div>`;
 
 // primary call to action (quote). js-cta drives the "one CTA on screen" logic.
 const quoteBtn = (label = "Get a quote", cls = "") =>
@@ -85,7 +89,15 @@ function businessSchema() {
     },
   };
   if (site.googleRating >= 4.6) {
-    s.aggregateRating = { "@type": "AggregateRating", ratingValue: String(site.googleRating), reviewCount: String(site.googleReviewCount), bestRating: "5" };
+    s.aggregateRating = { "@type": "AggregateRating", ratingValue: site.googleRating.toFixed(1), reviewCount: String(site.googleReviewCount), bestRating: "5", worstRating: "1" };
+    s.review = reviews.items.slice(0, 5).map((r) => ({
+      "@type": "Review",
+      reviewRating: { "@type": "Rating", ratingValue: String(r.stars), bestRating: "5" },
+      author: { "@type": "Person", name: r.author },
+      datePublished: r.date,
+      reviewBody: r.quote,
+      publisher: { "@type": "Organization", name: reviews.source },
+    }));
   }
   return s;
 }
@@ -320,6 +332,32 @@ const finalCta = (title = "Ready to make it enchanted?", text = "Send your date 
     </div>
   </section>`;
 
+// ---------- reviews ----------
+const starRow = (n = 5) => `<span class="stars" aria-hidden="true">${"★".repeat(n)}${"☆".repeat(5 - n)}</span>`;
+function reviewCard(r) {
+  return `<figure class="review">
+    <div class="review__top">${starRow(r.stars)}<span class="review__src">Google</span></div>
+    <blockquote class="review__q">${esc(r.quote)}</blockquote>
+    <figcaption class="review__by"><span class="review__name">${esc(r.author)}</span><span class="review__date">${esc(r.dateText)}</span></figcaption>
+  </figure>`;
+}
+function reviewsBand({ heading = "Loved across the Des Moines metro", limit = 3, soft = true } = {}) {
+  if (!(site.googleRating >= 4.6) || !reviews.items.length) return "";
+  const rr = site.googleRating.toFixed(1);
+  return `<section class="band${soft ? " band--soft" : ""} band--tight reviews">
+  <div class="wrap">
+    <div class="section-head reviews__head">
+      <div>${eyebrow("", "Reviews", true)}<h2 class="section-h">${esc(heading)}</h2></div>
+      <a class="reviews__score" href="${site.googleReviewsUrl}" target="_blank" rel="noopener" aria-label="${rr} out of 5 stars from ${site.googleReviewCount} Google reviews">
+        <span class="reviews__num">${rr}</span>${starRow(5)}<span class="reviews__count">${site.googleReviewCount} Google reviews</span>
+      </a>
+    </div>
+    <div class="review-grid">${reviews.items.slice(0, limit).map(reviewCard).join("")}</div>
+    <div class="section-foot"><a class="btn btn--ghost" href="${site.googleReviewsUrl}" target="_blank" rel="noopener">Read all ${site.googleReviewCount} reviews on Google</a></div>
+  </div>
+</section>`;
+}
+
 // ---------- cards-cascade gallery (scroll-driven 3D deck) ----------
 const cascadeCards = [
   { key: "groomsmen", kicker: "Weddings", tag: "Wedding", title: "The Party", meta: "Groomsmen, sharp and ready for the dance floor." },
@@ -426,8 +464,8 @@ function buildHome() {
   <div class="wrap">
     <div class="section-head">${eyebrow("", "Customization", true)}<h2 class="section-h">Make it yours</h2><p class="lede">Choose from our collection of backdrops and photo strip designs to match your event perfectly.</p></div>
     <div class="custom-grid">
-      <article class="custom-card">${img(customization.backdrops.img, altFor(customization.backdrops.img), { sizes: "(max-width: 760px) 100vw, 45vw" })}<div class="custom-card__body"><h3>${esc(customization.backdrops.title)}</h3><p>${esc(customization.backdrops.text)}</p></div></article>
-      <article class="custom-card">${img(customization.strips.img, altFor(customization.strips.img), { sizes: "(max-width: 760px) 100vw, 45vw" })}<div class="custom-card__body"><h3>${esc(customization.strips.title)}</h3><p>${esc(customization.strips.text)}</p></div></article>
+      <article class="custom-card">${mosaic(customization.backdrops.imgs, 2)}<div class="custom-card__body"><h3>${esc(customization.backdrops.title)}</h3><p>${esc(customization.backdrops.text)}</p></div></article>
+      <article class="custom-card">${mosaic(customization.strips.imgs, 4)}<div class="custom-card__body"><h3>${esc(customization.strips.title)}</h3><p>${esc(customization.strips.text)}</p></div></article>
     </div>
   </div>
 </section>
@@ -442,6 +480,8 @@ function buildHome() {
 </section>
 
 ${cascadeSection()}
+
+${reviewsBand({ heading: "Loved across the Des Moines metro", limit: 3, soft: false })}
 
 <section class="band band--soft">
   <div class="wrap">
@@ -706,6 +746,23 @@ ${finalCta("Want an exact quote for your date?", "Send your event date, city and
   });
 }
 
+function buildReviews() {
+  const trail = [{ name: "Home", href: "/" }, { name: "Reviews", href: "/reviews/" }];
+  const rr = site.googleRating.toFixed(1);
+  const body = `
+${pageHead(trail, "Reviews", "Photo booth reviews in the Des Moines metro", `Enchanted Booth Co. is rated ${rr} stars from ${site.googleReviewCount} Google reviews. Here is what couples, planners and party hosts across the metro say after their event.`)}
+${reviewsBand({ heading: "What our clients say", limit: reviews.items.length, soft: false })}
+${finalCta("Ready to be our next five-star event?", "Send your date and we will put together a package that fits and hold your spot.")}`;
+  page({
+    pathName: "/reviews/",
+    title: "Photo Booth Reviews | Enchanted Booth Co. Des Moines",
+    description: `Enchanted Booth Co. is rated ${rr}/5 from ${site.googleReviewCount} Google reviews. Read what Des Moines couples, planners and hosts say about our DSLR photo booth.`,
+    schema: [breadcrumb(trail)],
+    body,
+    current: "/reviews/",
+  });
+}
+
 function buildEvent(e) {
   const trail = [{ name: "Home", href: "/" }, { name: e.navLabel, href: `/${e.slug}/` }];
   const recs = packages.filter((p) => e.recommend.includes(p.slug));
@@ -954,7 +1011,7 @@ function buildRobots() {
 }
 function allRoutes() {
   return [
-    "/", "/packages/", "/gallery/", "/how-it-works/", "/faq/", "/photo-booth-cost/", "/contact/", "/privacy/",
+    "/", "/packages/", "/gallery/", "/how-it-works/", "/faq/", "/photo-booth-cost/", "/reviews/", "/contact/", "/privacy/",
     ...events.map((e) => `/${e.slug}/`),
     "/service-areas/",
     ...areas.map((a) => `/service-areas/${a.slug}/`),
@@ -969,6 +1026,9 @@ function buildLlms() {
   const pkgLines = packages.map((p) => `- ${p.name}: ${money(p.price)} for ${p.hours}. ${p.blurb}`).join("\n");
   const areaLines = areas.map((a) => `- ${a.city}, ${site.regionName}`).join("\n");
   const faqLines = faqs.map((f) => `### ${f.q}\n${strip(f.a)}`).join("\n\n");
+  const reviewsBlock = site.googleRating >= 4.6
+    ? `\n## Reviews\nRated ${site.googleRating.toFixed(1)} out of 5 stars from ${site.googleReviewCount} Google reviews. A few recent ones:\n${reviews.items.slice(0, 4).map((r) => `- "${r.quote}" — ${r.author}, ${r.dateText} (Google)`).join("\n")}\nSee all reviews: ${site.googleReviewsUrl}\n`
+    : "";
   const txt = `# ${site.name}
 
 > ${site.tagline}. Luxury photo booth rental for weddings, corporate events and parties across the ${site.metro}, based in ${site.base}.
@@ -978,7 +1038,7 @@ Open and booking weddings, parties and corporate events across the Des Moines, I
 
 ## About
 Enchanted Booth Co. is a luxury photo booth rental serving the Des Moines metro. Every booking includes a professional DSLR studio setup, studio lighting, your choice of backdrop, a curated prop collection, a friendly on-site attendant, free setup and breakdown, instant sharing by QR / text / email, and a full online gallery. The booth is designed to look like it belongs at your event, not like hauled-in equipment.
-
+${reviewsBlock}
 ## Contact
 - Phone: ${site.phone}
 - Email: ${site.email}
@@ -1021,6 +1081,7 @@ buildGallery();
 buildHowItWorks();
 buildFaq();
 buildPricingGuide();
+buildReviews();
 events.forEach(buildEvent);
 buildAreasIndex();
 areas.forEach(buildArea);

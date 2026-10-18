@@ -35,10 +35,12 @@ export const site = {
   // Contact form → FormSubmit (owner gmail). Needs a one-time confirmation click.
   formEndpoint: "https://formsubmit.co/enchantedboothco@gmail.com",
 
-  // No verified public Google rating yet → no aggregateRating / reviews block
-  // (4.6 gate + "no reviews, no section" rule).
-  googleRating: 0,
-  googleReviewCount: 0,
+  // Verified Google Business Profile rating (read from their listing 2026-10-18:
+  // "Enchanted Booth Co.", West Des Moines — 5.0 from 53 reviews). Clears the 4.6
+  // gate, so aggregateRating + the reviews section are live.
+  googleRating: 5.0,
+  googleReviewCount: 53,
+  googleReviewsUrl: "https://www.google.com/maps/search/?api=1&query=Enchanted%20Booth%20Co%20West%20Des%20Moines%20IA",
 
   promo: {
     enabled: true,
@@ -61,6 +63,7 @@ export const navMore = [
   { label: "Corporate Events", href: "/corporate-events/" },
   { label: "Parties & Celebrations", href: "/parties/" },
   { label: "Service Areas", href: "/service-areas/" },
+  { label: "Reviews", href: "/reviews/" },
 ];
 
 // Every booking includes these.
@@ -165,11 +168,13 @@ export const customization = {
     title: "Backdrops",
     text: "From classic solids to elegant sequins and rich textures, there is a backdrop for every vibe, color palette and theme.",
     img: "holiday-couple",
+    imgs: ["holiday-couple", "wedding-kiss", "nye-group", "gala-trio"],
   },
   strips: {
     title: "Photo strip designs",
     text: "Custom 2x6 and 4x6 layouts matched to your event theme, your colors, your names or your branding. Designed by us, approved by you.",
     img: "strips-spread",
+    imgs: ["strip-ashes", "strip-forever", "strip-lopezes", "strip-drakes"],
   },
 };
 
@@ -492,3 +497,27 @@ export const galleryCats = [
   { id: "corporate", label: "Corporate" },
   { id: "strips", label: "Photo strips" },
 ];
+
+// Real 5-star Google reviews (read from their Google Business Profile 2026-10-18).
+// Verbatim text, emoji removed, trimmed to complete sentences. aggregateRating is
+// gated at >= 4.6 (see site.googleRating).
+export const reviews = {
+  rating: site.googleRating,
+  count: site.googleReviewCount,
+  source: "Google",
+  url: site.googleReviewsUrl,
+  items: [
+    { author: "Nancy Tran", stars: 5, date: "2026-05-20", dateText: "May 2026",
+      quote: "The photos speak for itself — very high quality and customizable! It was a very quick, easy, and fun experience. I love that you are able to retake the photos and add stickers. Highly recommend." },
+    { author: "Andrea Echeverria", stars: 5, date: "2026-08-12", dateText: "August 2026",
+      quote: "We loved having Enchanted Photo Booth at our wedding! The photobooth was a hit, and the quality was amazing!" },
+    { author: "Taylor Wilson", stars: 5, date: "2026-05-15", dateText: "May 2026",
+      quote: "We had such a great experience with this photobooth service! The setup was sleek, the photos turned out amazing, and it was a huge hit with our guests. The attendant was friendly and kept everything running smoothly the whole time." },
+    { author: "Nina Thiravong", stars: 5, date: "2026-06-10", dateText: "June 2026",
+      quote: "Beautiful booth and amazing photos! Everything is highly customizable, and they offer some really fun features that make the experience even more special. The guests were impressed and able to leave with a memorable keepsake from the event. Highly recommend!" },
+    { author: "Minh Đào", stars: 5, date: "2026-06-15", dateText: "June 2026",
+      quote: "Had such a great experience with Enchanted Booth Co! The setup was beautiful, the props were fun, and everyone loved taking pictures all night. The staff was super friendly and professional." },
+    { author: "Ngoc Le", stars: 5, date: "2026-06-20", dateText: "June 2026",
+      quote: "Literally the cutest and easiest photo booth setup ever. I'm obsessed! The props bring out the silliest side of you, there are so many photo templates to choose from, and you can even customize them." },
+  ],
+};
