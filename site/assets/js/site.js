@@ -226,4 +226,91 @@
       fanTick();
     }
   }
+
+  // ---- cards-cascade scroll-driven 3D deck ----
+  var cascSection = doc.getElementById("cascade");
+  if (cascSection) {
+    var cascStage = doc.getElementById("casc-stage");
+    var cascDeck = doc.getElementById("casc-deck");
+    var cascCards = [].slice.call(cascDeck.querySelectorAll(".casc-card"));
+    var cascTicks = [].slice.call(cascSection.querySelectorAll(".casc-rail__tick"));
+    var cascFill = doc.getElementById("casc-fill"), cascThumb = doc.getElementById("casc-thumb");
+    var cascCur = doc.getElementById("casc-cur"), cascLabel = doc.getElementById("casc-label"), cascLive = doc.getElementById("casc-live");
+    var cascTrack = doc.getElementById("casc-track");
+    var CN = cascCards.length;
+    var CTITLES = cascCards.map(function (c) { var t = c.querySelector(".casc-card__title"); return t ? t.textContent : ""; });
+    var CFG = { aspect: 1.16, cardVW: 0.26, cardMin: 210, cardMax: 400, ease: 0.14, perCardVh: 20,
+      g: { crestTilt: -18, crestY: 0.20, crestZ: 0.02, backDecay: 0.80, backTilt: 50, backRise: 1.02, backDepth: 1.05, backShrink: 0.16, frontDrop: 0.86, frontFold: 120, frontFwd: 0.30, fadeStart: 1.30, fadeEnd: 2.20, backFade: 9.0 } };
+    var creduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var CCW = 380, CCH = 440;
+    var cclamp = function (x, a, b) { return Math.min(b, Math.max(a, x)); };
+    function cascLayout() {
+      var vw = innerWidth, vh = innerHeight;
+      CCW = Math.round(Math.min(CFG.cardMax, Math.max(CFG.cardMin, vw * CFG.cardVW)));
+      CCH = Math.round(CCW * CFG.aspect);
+      var maxCH = vh * 0.5;
+      if (CCH > maxCH) { CCH = Math.round(maxCH); CCW = Math.round(CCH / CFG.aspect); }
+      cascStage.style.setProperty("--cw", CCW + "px");
+      cascStage.style.setProperty("--ch", CCH + "px");
+      cascStage.style.setProperty("--persp", Math.max(1200, Math.min(vw, vh) * 2.5) + "px");
+      cascStage.style.setProperty("--vanish", "38%");
+      var wide = vw > 880;
+      cascStage.style.setProperty("--deckX", wide ? "68%" : "50%");
+      cascStage.style.setProperty("--vanishX", wide ? "66%" : "50%");
+      cascStage.style.setProperty("--deckY", wide ? "50%" : "72%");
+      cascSection.style.height = (100 + (CN - 1) * CFG.perCardVh) + "vh";
+    }
+    function cascPlace(el, p) {
+      var G = CFG.g, H = CCH, tilt, ty, tz, scale, opacity, sheen, z;
+      if (p >= 0) {
+        var a = 1 - Math.exp(-p * G.backDecay);
+        tilt = G.crestTilt - G.backTilt * a; ty = H * (G.crestY - G.backRise * a); tz = H * (G.crestZ - G.backDepth * a);
+        scale = 1 - G.backShrink * a; sheen = 0.5 + 0.4 * a; opacity = cclamp(1 - (p - G.backFade) * 0.5, 0, 1); z = 1000 - Math.round(p * 10);
+      } else {
+        var q = -p; tilt = G.crestTilt + G.frontFold * q; ty = H * (G.crestY + G.frontDrop * q);
+        var fwd = Math.sin(cclamp(q, 0, 1) * Math.PI * 0.5); tz = H * (G.crestZ + G.frontFwd * fwd);
+        scale = 1 + 0.05 * fwd; sheen = 0.5 - 0.3 * cclamp(q, 0, 1); opacity = 1 - cclamp((q - G.fadeStart) / (G.fadeEnd - G.fadeStart), 0, 1); z = 2000 + Math.round(q * 10);
+      }
+      el.style.opacity = opacity; el.style.zIndex = z; el.style.setProperty("--sheen", sheen.toFixed(3));
+      el.style.transform = "translateY(" + ty.toFixed(1) + "px) translateZ(" + tz.toFixed(1) + "px) rotateX(" + tilt.toFixed(2) + "deg) scale(" + scale.toFixed(3) + ")";
+    }
+    var cprog = 0, ctarget = 0, clast = -1;
+    function cascRender() {
+      var travel = cascSection.offsetHeight - innerHeight;
+      var scrolled = cclamp(-cascSection.getBoundingClientRect().top, 0, Math.max(1, travel));
+      ctarget = travel > 0 ? (scrolled / travel) * (CN - 1) : 0;
+      var e = creduce ? 1 : CFG.ease;
+      cprog += (ctarget - cprog) * e;
+      if (Math.abs(ctarget - cprog) < 0.0005) cprog = ctarget;
+      for (var i = 0; i < CN; i++) cascPlace(cascCards[i], i - cprog);
+      var frac = CN > 1 ? cclamp(cprog / (CN - 1), 0, 1) : 0;
+      cascFill.style.height = (frac * 100) + "%"; cascThumb.style.top = (frac * 100) + "%";
+      var active = cclamp(Math.round(cprog), 0, CN - 1);
+      if (active !== clast) {
+        clast = active;
+        cascTicks.forEach(function (d, i) { d.setAttribute("aria-current", i === active ? "true" : "false"); });
+        cascCur.textContent = String(active + 1).padStart(2, "0");
+        if (cascLabel) cascLabel.textContent = CTITLES[active];
+        if (cascLive) cascLive.textContent = "Photo " + (active + 1) + " of " + CN + ": " + CTITLES[active];
+      }
+      requestAnimationFrame(cascRender);
+    }
+    var cclamp01 = function (x) { return Math.min(1, Math.max(0, x)); };
+    var csecTop = function () { return cascSection.getBoundingClientRect().top + scrollY; };
+    function cscrollTo(raw, smooth) { var travel = Math.max(0, cascSection.offsetHeight - innerHeight); scrollTo({ top: csecTop() + cclamp01(raw) * travel, behavior: (smooth && !creduce) ? "smooth" : "auto" }); }
+    var railDrag = false;
+    var railTo = function (cy) { var r = cascTrack.getBoundingClientRect(); cscrollTo((cy - r.top) / r.height, false); };
+    cascTrack.addEventListener("pointerdown", function (e) { if (e.target.classList.contains("casc-rail__tick")) return; railDrag = true; try { cascTrack.setPointerCapture(e.pointerId); } catch (_) {} railTo(e.clientY); });
+    cascTrack.addEventListener("pointermove", function (e) { if (railDrag) railTo(e.clientY); });
+    var railEnd = function () { railDrag = false; };
+    cascTrack.addEventListener("pointerup", railEnd); cascTrack.addEventListener("pointercancel", railEnd);
+    cascTicks.forEach(function (d, i) { d.addEventListener("click", function () { cscrollTo(CN > 1 ? i / (CN - 1) : 0, true); }); });
+    addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+      var r = cascSection.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      var cur = cclamp(Math.round(cprog), 0, CN - 1);
+      cscrollTo(CN > 1 ? cclamp(cur + (e.key === "ArrowRight" ? 1 : -1), 0, CN - 1) / (CN - 1) : 0, true); e.preventDefault();
+    });
+    cascLayout(); addEventListener("resize", cascLayout); cascRender();
+  }
 })();

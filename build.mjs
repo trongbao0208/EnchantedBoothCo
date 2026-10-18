@@ -321,6 +321,57 @@ const finalCta = (title = "Ready to make it enchanted?", text = "Send your date 
     </div>
   </section>`;
 
+// ---------- cards-cascade gallery (scroll-driven 3D deck) ----------
+const cascadeCards = [
+  { key: "groomsmen", kicker: "Weddings", tag: "Wedding", title: "The Party", meta: "Groomsmen, sharp and ready for the dance floor." },
+  { key: "nye-group", kicker: "Celebrations", tag: "New Year", title: "Midnight", meta: "Ringing it in at the sequin backdrop." },
+  { key: "bride-squad", kicker: "Weddings", tag: "Wedding", title: "Bride Squad", meta: "The crew, matched to the moment." },
+  { key: "gala-trio", kicker: "Galas", tag: "Gala", title: "Golden Hour", meta: "Props, champagne and a little sparkle." },
+  { key: "holiday-couple", kicker: "Holidays", tag: "Holiday", title: "Festive", meta: "Gold fringe and good company." },
+  { key: "friends-laugh", kicker: "Weddings", tag: "Wedding", title: "All Smiles", meta: "The laugh you only get in a booth." },
+  { key: "wedding-kiss", kicker: "Weddings", tag: "Wedding", title: "The Toast", meta: "Draped backdrop, timeless prints." },
+  { key: "group-women", kicker: "Corporate", tag: "Event", title: "The Team", meta: "Dressed up for the company party." },
+  { key: "bridesmaids", kicker: "Weddings", tag: "Wedding", title: "The Line-Up", meta: "Bridesmaids in black, drinks in hand." },
+  { key: "booth-candid", kicker: "The Prints", tag: "Strips", title: "The Strip", meta: "Guests with their fresh photo strips." },
+  { key: "couple-bw", kicker: "Weddings", tag: "Wedding", title: "Just Us", meta: "A clean portrait on a white backdrop." },
+];
+function cascadeSection() {
+  const N = cascadeCards.length;
+  const cards = cascadeCards.map((c, i) => {
+    const idx = `${String(i + 1).padStart(2, "0")} / ${String(N).padStart(2, "0")}`;
+    return `<article class="casc-card">
+      <div class="casc-card__face">
+        <img class="casc-card__img" src="/assets/img/${c.key}-lg.webp" alt="${esc(altFor(c.key))}" draggable="false" decoding="async" loading="lazy">
+        <div class="casc-card__scrim"></div>
+        <div class="casc-card__body">
+          <div class="casc-card__top"><span class="casc-card__idx">${idx}</span><span class="casc-card__tag">${esc(c.tag)}</span></div>
+          <div class="casc-card__foot"><p class="casc-card__kicker">${esc(c.kicker)}</p><h3 class="casc-card__title">${esc(c.title)}</h3><p class="casc-card__meta">${esc(c.meta)}</p></div>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
+  const ticks = cascadeCards.map((c, i) => `<button class="casc-rail__tick" type="button" role="tab" aria-label="Card ${i + 1}: ${esc(c.title)}" data-i="${i}" style="top:${N > 1 ? (i / (N - 1)) * 100 : 0}%"></button>`).join("");
+  return `<section id="cascade" class="cascade" aria-roledescription="carousel" aria-label="Photo booth gallery deck">
+  <div class="casc-sticky">
+    <div class="casc-stage" id="casc-stage"><div class="casc-deck" id="casc-deck">${cards}</div></div>
+    <div class="casc-hero">
+      <span class="casc-hero__eyebrow">The Gallery · ${esc(site.metro)}</span>
+      <h2 class="casc-hero__title">Real<br><em>moments</em></h2>
+      <p class="casc-hero__sub">Real weddings, parties and corporate events across the metro. Scroll through a few of our favorite nights, then see the whole gallery.</p>
+      <a class="casc-cta" href="/gallery/"><span>See the full gallery</span><span class="casc-cta__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
+    </div>
+    <div class="casc-rail">
+      <div class="casc-rail__count"><span class="casc-rail__cur" id="casc-cur">01</span><span class="casc-rail__tot">/${String(N).padStart(2, "0")}</span></div>
+      <div class="casc-rail__track" id="casc-track" role="tablist" aria-label="Jump to photo">
+        <div class="casc-rail__fill" id="casc-fill"></div><div class="casc-rail__thumb" id="casc-thumb"></div>${ticks}
+      </div>
+      <div class="casc-rail__label" id="casc-label">${esc(cascadeCards[0].title)}</div>
+    </div>
+    <div class="sr-only" id="casc-live" aria-live="polite"></div>
+  </div>
+</section>`;
+}
+
 // ---------- pages ----------
 function buildHome() {
   const featChips = ["DSLR camera quality", "Instant pro prints", "Studio lighting", "Friendly on-site attendants"];
@@ -346,7 +397,7 @@ function buildHome() {
 
 <section class="band band--soft designed">
   <div class="wrap split">
-    <div class="designed__media">${img("booth-candid", altFor("booth-candid"), { sizes: "(max-width: 760px) 100vw, 40vw" })}</div>
+    <div class="designed__media">${img("booth-unit", "The custom-built Enchanted Booth Co. photo booth with studio lighting", { sizes: "(max-width: 760px) 100vw, 40vw" })}</div>
     <div class="designed__text">
       ${eyebrow("", "The Enchanted Booth", true)}
       <h2 class="section-h">Not rented. <em>Designed.</em></h2>
@@ -391,14 +442,7 @@ function buildHome() {
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap">
-    <div class="section-head"><div>${eyebrow("", "The gallery", true)}<h2 class="section-h">Real nights, real smiles</h2></div>${ghostBtn("See the full gallery", "/gallery/")}</div>
-    <div class="masonry masonry--teaser">
-      ${["groomsmen", "nye-group", "strips-spread", "bride-squad", "gala-trio", "group-women", "holiday-couple", "friends-laugh"].map((k) => `<figure class="ph">${img(k, altFor(k), { sizes: "(max-width: 760px) 50vw, 24vw" })}</figure>`).join("")}
-    </div>
-  </div>
-</section>
+${cascadeSection()}
 
 <section class="band band--soft">
   <div class="wrap">

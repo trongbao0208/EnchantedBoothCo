@@ -1,26 +1,102 @@
 {
-  "strip-group": {"lg":"600x1800","sw":600},
-  "strip-ashes": {"lg":"600x1800","sw":600},
-  "prop-single": {"lg":"1024x688","sw":760},
-  "strip-drakes": {"lg":"600x1800","sw":600},
-  "strips-hand": {"lg":"1500x1932","sw":760},
-  "strip-lopezes": {"lg":"600x1800","sw":600},
-  "groomsmen": {"lg":"1024x688","sw":760},
-  "group-women": {"lg":"1024x688","sw":760},
-  "friends-laugh": {"lg":"1024x688","sw":760},
-  "backdrop-01": {"lg":"688x1024","sw":688},
-  "booth-candid": {"lg":"688x1024","sw":688},
-  "birthday-cake": {"lg":"880x1168","sw":760},
-  "strip-craigers": {"lg":"600x1800","sw":600},
-  "bridesmaids": {"lg":"1024x688","sw":760},
-  "bride-squad": {"lg":"1024x688","sw":760},
-  "strip-forever": {"lg":"600x1800","sw":600},
-  "couple-bw": {"lg":"1024x688","sw":760},
-  "holiday-couple": {"lg":"688x1024","sw":688},
-  "hero": {"lg":"1024x688","sw":760},
-  "strips-spread": {"lg":"1500x1118","sw":760},
-  "nye-group": {"lg":"880x1168","sw":760},
-  "wedding-kiss": {"lg":"1024x688","sw":760},
-  "party-props": {"lg":"1024x688","sw":760},
-  "gala-trio": {"lg":"1024x688","sw":760}
+  "strip-group": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "strip-ashes": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "prop-single": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "strip-drakes": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "strips-hand": {
+    "lg": "1500x1932",
+    "sw": 760
+  },
+  "strip-lopezes": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "groomsmen": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "group-women": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "friends-laugh": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "backdrop-01": {
+    "lg": "688x1024",
+    "sw": 688
+  },
+  "booth-candid": {
+    "lg": "688x1024",
+    "sw": 688
+  },
+  "birthday-cake": {
+    "lg": "880x1168",
+    "sw": 760
+  },
+  "strip-craigers": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "bridesmaids": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "bride-squad": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "strip-forever": {
+    "lg": "600x1800",
+    "sw": 600
+  },
+  "couple-bw": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "holiday-couple": {
+    "lg": "688x1024",
+    "sw": 688
+  },
+  "hero": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "strips-spread": {
+    "lg": "1500x1118",
+    "sw": 760
+  },
+  "nye-group": {
+    "lg": "880x1168",
+    "sw": 760
+  },
+  "wedding-kiss": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "party-props": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "gala-trio": {
+    "lg": "1024x688",
+    "sw": 760
+  },
+  "booth-unit": {
+    "lg": "621x1024",
+    "sw": 621
+  }
 }
