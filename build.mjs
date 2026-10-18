@@ -240,10 +240,7 @@ function footer() {
   </div>
   <div class="wrap foot__bottom">
     <small class="foot__copyright">&copy; ${new Date().getFullYear()} ${esc(site.legalName)}. &middot; <a href="/privacy/">Privacy &amp; cookies</a></small>
-    <a class="foot__credit" href="https://eatfuti.ai/" target="_blank" rel="noopener">
-      <img src="/assets/img/eatfuti-mark.png" width="160" height="160" sizes="40px" alt="" loading="lazy">
-      <span><strong>Powered by EatFuti</strong><span class="foot__credit-note">Built with love in Des Moines, Iowa</span></span>
-    </a>
+    <small class="foot__copyright">Luxury photo booth rental in the ${esc(site.metro)}.</small>
   </div>
 </footer>`;
 }
