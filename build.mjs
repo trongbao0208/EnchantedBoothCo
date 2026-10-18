@@ -332,7 +332,6 @@ function buildHome() {
     <div class="fanhero__scrim" aria-hidden="true"></div>
     <div class="fanhero__tl" aria-hidden="true">
       <div class="fanbrand"><span class="fanbrand__mark"></span>${esc(site.metro)}</div>
-      <div class="fancounter"><b id="fan-idx">01</b><i></i><span id="fan-total">08</span></div>
     </div>
   </div>
   <div class="fanhero__content">
