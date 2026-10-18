@@ -80,30 +80,34 @@
     doc.addEventListener("keydown", function (e) { if (e.key === "Escape" && !promo.hasAttribute("hidden")) closePromo(); });
   }
 
-  // ---- balanced grid masonry (packs tiles tight, no empty columns) ----
+  // ---- balanced masonry: place each tile in the currently shortest column ----
   function masonry() {
     doc.querySelectorAll(".masonry").forEach(function (grid) {
-      grid.classList.add("masonry--js");
-      var cs = getComputedStyle(grid);
-      var rows = parseFloat(cs.gridAutoRows) || 8;
-      var gap = parseFloat(cs.rowGap || cs.gap) || 16;
-      grid.querySelectorAll(".ph").forEach(function (ph) {
-        if (ph.classList.contains("is-hidden")) { ph.style.gridRowEnd = ""; return; }
+      if (!grid._phItems) grid._phItems = [].slice.call(grid.querySelectorAll(".ph"));
+      var items = grid._phItems;
+      if (!items.length) return;
+      var w = grid.clientWidth;
+      var cols = w > 980 ? 4 : (w > 600 ? 3 : 2);
+      grid.classList.add("masonry--cols");
+      grid.innerHTML = "";
+      var colEls = [], colH = [], c;
+      for (c = 0; c < cols; c++) { var d = doc.createElement("div"); d.className = "masonry__col"; grid.appendChild(d); colEls.push(d); colH.push(0); }
+      items.forEach(function (ph) {
+        var m = 0;
+        for (var i = 1; i < cols; i++) if (colH[i] < colH[m]) m = i;
+        colEls[m].appendChild(ph);
         var img = ph.querySelector("img");
-        if (!img) return;
-        var w = ph.getBoundingClientRect().width;
-        var aw = parseFloat(img.getAttribute("width")) || img.naturalWidth || 1;
-        var ah = parseFloat(img.getAttribute("height")) || img.naturalHeight || 1;
-        var h = w * (ah / aw);
-        ph.style.gridRowEnd = "span " + Math.max(1, Math.ceil((h + gap) / (rows + gap)));
+        var aw = (img && parseFloat(img.getAttribute("width"))) || 1;
+        var ah = (img && parseFloat(img.getAttribute("height"))) || 1;
+        colH[m] += ah / aw + 0.08; // relative height (cols share a width) + gap allowance
       });
     });
   }
   if (doc.querySelector(".masonry")) {
     masonry();
     window.addEventListener("load", masonry);
-    var _rt;
-    window.addEventListener("resize", function () { clearTimeout(_rt); _rt = setTimeout(masonry, 120); });
+    var _rt, _lastW = innerWidth;
+    window.addEventListener("resize", function () { clearTimeout(_rt); _rt = setTimeout(masonry, 150); });
   }
 
   // ---- lightbox (click any gallery photo to enlarge, arrow-key / swipe nav) ----
