@@ -168,7 +168,7 @@ export const customization = {
     title: "Backdrops",
     text: "From classic solids to elegant sequins and rich textures, there is a backdrop for every vibe, color palette and theme.",
     img: "holiday-couple",
-    imgs: ["holiday-couple", "wedding-kiss", "nye-group", "gala-trio"],
+    imgs: ["holiday-couple", "wedding-kiss", "nye-group", "gala-trio", "couple-bw", "backdrop-01"],
   },
   strips: {
     title: "Photo strip designs",

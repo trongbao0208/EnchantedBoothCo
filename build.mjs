@@ -32,8 +32,8 @@ const altFor = (key) => gallery.find((g) => g.key === key)?.alt || `${site.name}
 // Collage: several photos as a loose, tilted, overlapping pile of prints
 // (deliberately not a tidy grid).
 const collage = (keys) => {
-  const slot = ["a", "b", "c", "d"];
-  return `<div class="collage">${keys.slice(0, 4).map((k, i) => `<figure class="collage__ph collage__ph--${slot[i]}">${img(k, altFor(k), { sizes: "(max-width: 760px) 42vw, 20vw", cls: "collage__img" })}</figure>`).join("")}</div>`;
+  const slot = ["a", "b", "c", "d", "e", "f"];
+  return `<div class="collage">${keys.slice(0, 6).map((k, i) => `<figure class="collage__ph collage__ph--${slot[i]}">${img(k, altFor(k), { sizes: "(max-width: 760px) 40vw, 18vw", cls: "collage__img" })}</figure>`).join("")}</div>`;
 };
 
 // primary call to action (quote). js-cta drives the "one CTA on screen" logic.
