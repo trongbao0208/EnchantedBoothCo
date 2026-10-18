@@ -29,9 +29,12 @@ const img = (key, alt, { sizes = "(max-width: 760px) 100vw, 50vw", cls = "", eag
 };
 const altFor = (key) => gallery.find((g) => g.key === key)?.alt || `${site.name} photo booth in ${site.metro}`;
 
-// Mosaic: a small grid of several photos for a card. cols sets the grid shape.
-const mosaic = (keys, cols) =>
-  `<div class="mosaic mosaic--c${cols}">${keys.map((k) => img(k, altFor(k), { sizes: "(max-width: 760px) 45vw, 22vw", cls: "mosaic__img" })).join("")}</div>`;
+// Collage: several photos as a loose, tilted, overlapping pile of prints
+// (deliberately not a tidy grid).
+const collage = (keys) => {
+  const slot = ["a", "b", "c", "d"];
+  return `<div class="collage">${keys.slice(0, 4).map((k, i) => `<figure class="collage__ph collage__ph--${slot[i]}">${img(k, altFor(k), { sizes: "(max-width: 760px) 42vw, 20vw", cls: "collage__img" })}</figure>`).join("")}</div>`;
+};
 
 // primary call to action (quote). js-cta drives the "one CTA on screen" logic.
 const quoteBtn = (label = "Get a quote", cls = "") =>
@@ -464,8 +467,8 @@ function buildHome() {
   <div class="wrap">
     <div class="section-head">${eyebrow("", "Customization", true)}<h2 class="section-h">Make it yours</h2><p class="lede">Choose from our collection of backdrops and photo strip designs to match your event perfectly.</p></div>
     <div class="custom-grid">
-      <article class="custom-card">${mosaic(customization.backdrops.imgs, 2)}<div class="custom-card__body"><h3>${esc(customization.backdrops.title)}</h3><p>${esc(customization.backdrops.text)}</p></div></article>
-      <article class="custom-card">${mosaic(customization.strips.imgs, 4)}<div class="custom-card__body"><h3>${esc(customization.strips.title)}</h3><p>${esc(customization.strips.text)}</p></div></article>
+      <article class="custom-card custom-card--collage">${collage(customization.backdrops.imgs)}<div class="custom-card__body"><h3>${esc(customization.backdrops.title)}</h3><p>${esc(customization.backdrops.text)}</p></div></article>
+      <article class="custom-card">${img(customization.strips.img, altFor(customization.strips.img), { sizes: "(max-width: 760px) 100vw, 45vw" })}<div class="custom-card__body"><h3>${esc(customization.strips.title)}</h3><p>${esc(customization.strips.text)}</p></div></article>
     </div>
   </div>
 </section>
