@@ -95,19 +95,20 @@ p{margin:0 0 1rem}
 .fanhero__stage.-drag{cursor:grabbing}
 .fantype{position:absolute;margin:0;color:var(--green);pointer-events:none;font-family:var(--display);font-weight:500;line-height:.86;letter-spacing:-.02em;font-size:clamp(42px,min(12vw,15vh),120px)}
 .fantype span{display:block}
-.fantype--top{top:clamp(86px,13vh,150px);right:clamp(16px,5vw,90px);text-align:right;z-index:1}
-.fantype--top span:last-child{color:var(--gold);font-style:italic}
-.fanhero__bottom{position:absolute;left:clamp(16px,5vw,90px);bottom:clamp(22px,4.5vh,58px);z-index:3;max-width:min(92vw,560px)}
-.fantype--bottom{position:static;text-align:left}
-.fanhero__lede{margin:.9rem 0 1.3rem;color:var(--muted);font-size:clamp(1rem,1.5vw,1.18rem);max-width:34ch}
-.fanhero__tl{position:absolute;top:clamp(90px,13vh,150px);left:clamp(16px,5vw,90px);z-index:4;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.fanhero__scrim{position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(180deg,transparent 0%,rgba(244,236,223,.6) 42%,var(--ivory-2) 72%);z-index:2;pointer-events:none}
+.fanhero__content{position:absolute;left:clamp(16px,5vw,90px);bottom:clamp(24px,5vh,62px);z-index:3;max-width:min(92vw,600px)}
+.fanhero__content .eyebrow{margin-bottom:.5rem}
+.fantype--bottom{position:static;text-align:left;font-size:clamp(40px,7.5vw,88px)}
+.fantype--bottom em{color:var(--gold);font-style:italic}
+.fanhero__lede{margin:1rem 0 1.4rem;color:var(--muted);font-size:clamp(1rem,1.5vw,1.18rem);max-width:42ch}
+.fanhero__tl{position:absolute;top:clamp(90px,12vh,140px);left:clamp(16px,5vw,90px);z-index:4;display:flex;flex-direction:column;gap:10px;pointer-events:none}
 .fanbrand{display:flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
 .fanbrand__mark{position:relative;width:13px;height:13px;border-radius:50%;background:var(--gold)}
 .fanbrand__mark::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1.5px solid color-mix(in srgb,var(--gold) 42%,transparent)}
 .fancounter{display:flex;align-items:center;gap:7px;font-weight:600;font-size:12px;letter-spacing:.12em;color:color-mix(in srgb,var(--green) 52%,transparent);font-variant-numeric:tabular-nums}
 .fancounter b{color:var(--green);font-weight:700}
 .fancounter i{width:22px;height:1px;background:color-mix(in srgb,var(--green) 32%,transparent);font-style:normal}
-.fanwheel{position:absolute;left:50%;top:var(--cy,140vh);width:0;height:0;z-index:2;transform:translate(-50%,-50%) rotate(var(--rot,0deg));will-change:transform}
+.fanwheel{position:absolute;left:50%;top:var(--cy,140vh);width:0;height:0;z-index:1;transform:translate(-50%,-50%) rotate(var(--rot,0deg));will-change:transform}
 .fancard{position:absolute;left:0;top:0;width:var(--cw,210px);height:var(--ch,300px);margin-left:calc(var(--cw,210px) / -2);margin-top:calc(var(--ch,300px) / -2);border-radius:16px;overflow:hidden;background:var(--green-deep);box-shadow:0 26px 52px -18px rgba(27,57,44,.5);transform:rotate(var(--a)) translateY(calc(var(--r,620px) * -1))}
 .fancard img{width:100%;height:100%;object-fit:cover;display:block}
 @media (max-width:620px){

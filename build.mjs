@@ -328,11 +328,12 @@ function buildHome() {
 <section class="fanhero" id="fanhero">
   <h1 class="sr-only">Des Moines' most enchanted photo booth — luxury photo booth rental for weddings, parties and corporate events</h1>
   <div class="fanhero__stage" id="fanhero-stage">
-    <div class="fantype fantype--top" aria-hidden="true"><span>The</span><span>Most</span><span>Enchanted</span></div>
     <div class="fanwheel" id="fanhero-wheel" data-images='${JSON.stringify(["groomsmen", "bride-squad", "nye-group", "gala-trio", "holiday-couple", "friends-laugh", "wedding-kiss", "group-women"].map((k) => `/assets/img/${k}-lg.webp`))}'></div>
-    <div class="fanhero__bottom">
-      <div class="fantype fantype--bottom" aria-hidden="true"><span>Photo</span><span>Booth</span></div>
-      <p class="fanhero__lede">Luxury photo booth rental for weddings, parties and corporate events across the ${esc(site.metro)}. Grab and spin.</p>
+    <div class="fanhero__scrim" aria-hidden="true"></div>
+    <div class="fanhero__content">
+      <p class="eyebrow eyebrow--gold">Luxury photo booth · ${esc(site.metro)}</p>
+      <div class="fantype fantype--bottom" aria-hidden="true"><span>The most</span><span><em>enchanted</em> booth</span></div>
+      <p class="fanhero__lede">Studio-quality photos, instant prints and a friendly attendant for weddings, parties and corporate events. Grab the fan and give it a spin.</p>
       <div class="cta-row">${quoteBtn("Get a quote")}${ghostBtn("View packages", "/packages/")}</div>
     </div>
     <div class="fanhero__tl" aria-hidden="true">
